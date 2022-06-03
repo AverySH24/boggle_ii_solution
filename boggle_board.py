@@ -14,9 +14,7 @@ class BoggleBoard:
         pick1 = hold[randIndex]
         hold.remove(hold[randIndex])
       
-        pick2 = pick1[randrange(6)]
-        if (pick2 == 'Q'):
-          pick2 = "Qu" 
+        pick2 = pick1[randrange(6)] 
         self.board[x].append(pick2)
 
 
@@ -25,11 +23,21 @@ class BoggleBoard:
     for x in self.board:
       total = ""
       for y in x:
+        if (y == 'Q'):
+          y = "Qu"
         total += y + " "
       print(total)
 
   
   def in_board(self, word):
+    #OOPS forgot to mention this earlier, but I forgot to take care of the Qu.
+    #Here, I'm taking care of that before I run the recursion
+    
+    if (self.notValidInput(word.upper())):
+      print("Not a possible input. Q must be followed by u.")
+      return False
+    word = word.upper().replace("QU", "Q")
+
     start = []
     #Create within the board for all the starting coordinates
     for val in range(0, len(self.board)):
@@ -81,6 +89,11 @@ class BoggleBoard:
   def clearBoard(self):
     self.board = [[],[],[],[]]
 
+  def notValidInput(self, userInput):
+    if ("Q" in userInput) and not ("QU" in userInput):
+      return True
+    return False
+
 
 
 #Test for the boggle board
@@ -89,16 +102,11 @@ class BoggleBoard:
 def run_board():
   bog = BoggleBoard()
   bog.shake()
-  done = False 
-  while not done:
+  while True:
     bog.printBoard()
     userInput = input("> ")
     if userInput == "quit":
-      done = True
       break
-    print(f"{bog.in_board(userInput.upper())}\n")
+    print(f"{bog.in_board(userInput)}\n")
 
 run_board()
-
-
-  
