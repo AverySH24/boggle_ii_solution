@@ -45,11 +45,11 @@ class BoggleBoard:
         if self.board[val][val2] == word[0]:
           start.append([val, val2])
     for x in range(0, len(start)):
-      if self.minimize(word[1:len(word)], start[x]):
+      if self.minimize(word[1:len(word)], start[x] ,[start[x]]):
         return True
     return False
 
-  def minimize(self, word, location, checked = []):
+  def minimize(self, word, location, checked):
     if word == "":
       return True
     #IF in range and not in checked, add to agenda
@@ -68,7 +68,8 @@ class BoggleBoard:
     for y in range(0, len(agenda)):
       if self.board[agenda[y][0]][agenda[y][1]] == word[0]:
         copy = checked
-        copy.append(y)
+        copy.append([agenda[y][0],agenda[y][1]])
+        #Shave off one letter, change your location, update your checked coordinates
         bool_results.append(self.minimize(word[1:len(word)], [agenda[y][0], agenda[y][1]], copy))
     
     for x in bool_results:
