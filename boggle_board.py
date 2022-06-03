@@ -18,7 +18,7 @@ class BoggleBoard:
         if (pick2 == 'Q'):
           pick2 = "Qu" 
         self.board[x].append(pick2)
-    self.printBoard()
+
 
 
   def printBoard(self):
@@ -89,11 +89,14 @@ class BoggleBoard:
 def run_board():
   bog = BoggleBoard()
   bog.shake()
-  userInput = input("> ")
-  while userInput != str("quit"):
-    print(bog.in_board(userInput))
-    userInput = input("> ")
+  done = False 
+  while not done:
     bog.printBoard()
+    userInput = input("> ")
+    if userInput == "quit":
+      done = True
+      break
+    print(f"{bog.in_board(userInput.upper())}\n")
 
 run_board()
 
